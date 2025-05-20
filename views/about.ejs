@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About LifeVault</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #2c2f33;
+      font-family: 'Arial', sans-serif;
+      color: #ffffff;
+    }
+
+    /* Header */
+    .header {
+      background-color: #36393f;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      box-sizing: border-box;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #7289da;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: #b9bbbe;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #7289da;
+    }
+
+    /* Main Content */
+    main {
+      margin-top: 80px; /* Space for fixed header */
+      padding: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .about-section {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .about-section h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+
+    .about-section p {
+      font-size: 1.1rem;
+      color: #b9bbbe;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .features {
+      margin-top: 2rem;
+    }
+
+    .features h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #ffffff;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .feature-list li {
+      font-size: 1rem;
+      color: #b9bbbe;
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .feature-list li::before {
+      content: '•';
+      color: #7289da;
+      position: absolute;
+      left: 0;
+      font-size: 1.2rem;
+    }
+
+    /* Credits Section */
+    .credits-section {
+      margin-top: 3rem;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .credits-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #ffffff;
+    }
+
+    .credits-section h3 {
+      font-size: 1.4rem;
+      margin: 1rem 0 0.5rem;
+      color: #7289da;
+    }
+
+    .credits-section p {
+      font-size: 1rem;
+      color: #b9bbbe;
+      margin: 0.5rem 0;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #36393f;
+      padding: 1rem;
+      text-align: center;
+      color: #b9bbbe;
+      font-size: 0.9rem;
+    }
+
+    .footer ul {
+      list-style: none;
+      margin: 0.5rem 0 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .footer a {
+      color: #7289da;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #677bc4;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .about-section h1 {
+        font-size: 2rem;
+      }
+
+      .about-section p {
+        font-size: 1rem;
+      }
+
+      .features h2,
+      .credits-section h2 {
+        font-size: 1.6rem;
+      }
+
+      .credits-section h3 {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      main {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+ <header class="header">
+    <div class="logo">LifeVault</div>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/signup">Sign Up</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section class="about-section">
+      <h1>About LifeVault</h1>
+      <p>
+        LifeVault is a personal life management platform designed to help you organize and cherish every aspect of your life. Whether it's capturing daily thoughts, preserving precious memories, or managing your finances, LifeVault provides a secure and intuitive solution to keep everything in one place.
+      </p>
+      <p>
+        Our mission is to empower individuals to live more organized, meaningful lives by offering tools that are easy to use and tailored to your needs. With a focus on simplicity and security, LifeVault is your trusted companion for personal growth and financial stability.
+      </p>
+      <div class="features">
+        <h2>Key Features</h2>
+        <ul class="feature-list">
+          <li><strong>Daily Diary</strong>: Write and organize your daily thoughts and experiences effortlessly.</li>
+          <li><strong>Memory</strong>: Store photos, notes, and moments in a secure, searchable archive.</li>
+          <li><strong>Financial Management</strong>: Track income, expenses, and budgets to achieve financial goals.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="credits-section">
+      <h2>Project Credits</h2>
+      <h3>Abdul Mutlib</h3>
+      <p>With 9 years of experience in Software Engineering Provided consultancy in this project.</p>
+      <h3>Sir Ali Hassan</h3>
+      <p>Software Engineer and Lecturer at IM Sciences, Sir Ali Hassan provided guidance and technical insights to shape LifeVault's Database.</p>
+      <h3>My Fellows</h3>
+      <p>Sana Ullah, studying at IM Sciences, contributed to the project's design and testing phases.</p>
+      <p>Faisal Iqbal, also studying at IM Sciences, supported the development and feature implementation.</p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 LifeVault. All rights reserved.</p>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>memory - LifeVault</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #2c2f33;
+      font-family: 'Arial', sans-serif;
+      color: #ffffff;
+    }
+
+    /* Header */
+    .header {
+      background-color: #36393f;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      box-sizing: border-box;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #7289da;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: #b9bbbe;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #7289da;
+    }
+
+    /* Menu Button */
+    .menu-button {
+      width: 40px;
+      height: 40px;
+      background-color: #7289da;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu-button:hover {
+      background-color: #677bc4;
+    }
+
+    .menu-button::before {
+      content: '•••';
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transform: rotate(90deg);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: #36393f;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+      transition: right 0.3s ease;
+      z-index: 1001;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+    }
+
+    .sidebar.show {
+      right: 0;
+    }
+
+    .sidebar .close-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #b9bbbe;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .sidebar .close-button:hover {
+      color: #7289da;
+    }
+
+    .sidebar .logout-button {
+      display: block;
+      width: 100%;
+      padding: 0.9rem;
+      background-color: #7289da;
+      border: none;
+      border-radius: 5px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 2rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar .logout-button:hover {
+      background-color: #677bc4;
+    }
+
+    /* Main Content */
+    main {
+      margin-top: 80px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .content-section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .content-section h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+
+    .content-section p {
+      font-size: 1.1rem;
+      color: #b9bbbe;
+      line-height: 1.6;
+    }
+
+    /* New Entry Button */
+    .new-entry-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, #7289da 0%, #4e5d94 100%);
+      border-radius: 5px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .new-entry-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .new-entry-button::before {
+      content: '+';
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+
+    /* Entry Cards */
+    .entry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .entry-card {
+      position: relative;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 150px;
+    }
+
+    .entry-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .entry-card h3 {
+      font-size: 1.6rem;
+      margin: 0 0 0.5rem 0;
+      color: #ffffff;
+    }
+
+    .entry-card p {
+      font-size: 0.9rem;
+      color: #e0e0e0;
+      margin: 0 0 0.5rem 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: relative;
+      width: 100%;
+      text-align: center;
+    }
+
+    .entry-card p.truncated::after {
+      content: 'View More';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(to right, transparent, #36393f 50%);
+      color: #7289da;
+      font-size: 0.75rem;
+      padding: 0 0.5rem;
+    }
+
+    .entry-card .view-btn {
+      padding: 0.5rem 1rem;
+      background: #7289da;
+      border: none;
+      border-radius: 5px;
+      color: #ffffff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .entry-card .view-btn:hover {
+      background: #677bc4;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1002;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .modal.show {
+      display: flex;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: #36393f;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+
+    .modal-content .close-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #b9bbbe;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .modal-content .close-button:hover {
+      color: #7289da;
+    }
+
+    .modal-content h3 {
+      font-size: 1.8rem;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .modal-content .content-container {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: #2c2f33;
+      border-radius: 5px;
+    }
+
+    .modal-content .content-container p {
+      font-size: 1rem;
+      color: #e0e0e0;
+      line-height: 1.8;
+      margin: 0;
+      white-space: normal;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Custom Scrollbar */
+    .modal-content .content-container::-webkit-scrollbar,
+    .modal-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .modal-content .content-container::-webkit-scrollbar-track,
+    .modal-content::-webkit-scrollbar-track {
+      background: #2c2f33;
+      border-radius: 4px;
+    }
+
+    .modal-content .content-container::-webkit-scrollbar-thumb,
+    .modal-content::-webkit-scrollbar-thumb {
+      background: #7289da;
+      border-radius: 4px;
+    }
+
+    .modal-content .content-container::-webkit-scrollbar-thumb:hover,
+    .modal-content::-webkit-scrollbar-thumb:hover {
+      background: #677bc4;
+    }
+
+    /* Scrollbar fallback for Firefox */
+    .modal-content .content-container,
+    .modal-content {
+      scrollbar-width: thin;
+      scrollbar-color: #7289da #2c2f33;
+    }
+
+    .modal-content .meta {
+      font-size: 0.9rem;
+      color: #b9bbbe;
+      margin-bottom: 1rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-actions button {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-actions .edit-btn {
+      background: linear-gradient(135deg, #7289da 0%, #4e5d94 100%);
+      color: #ffffff;
+    }
+
+    .modal-actions .edit-btn:hover {
+      background: #677bc4;
+    }
+
+    .modal-actions .delete-btn {
+      background: linear-gradient(135deg, #ff6b6b 0%, #cc5252 100%);
+      color: #ffffff;
+    }
+
+    .modal-actions .delete-btn:hover {
+      background: #cc5252;
+    }
+
+    .modal-form {
+      display: none;
+      margin-top: 1.5rem;
+      min-height: 200px;
+    }
+
+    .modal-form.active {
+      display: block;
+    }
+
+    .modal-form input,
+    .modal-form textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #2c2f33;
+      color: #ffffff;
+      font-size: 1rem;
+    }
+
+    .modal-form textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    .modal-form button {
+      padding: 0.8rem 1.5rem;
+      background-color: #7289da;
+      border: none;
+      border-radius: 5px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-form button:hover {
+      background-color: #677bc4;
+    }
+
+    /* Gradient Backgrounds */
+    .gradient-1 {
+      background: linear-gradient(135deg, #7289da 0%, #4e5d94 100%);
+    }
+
+    .gradient-2 {
+      background: linear-gradient(135deg, #43b581 0%, #2a8c66 100%);
+    }
+
+    .gradient-3 {
+      background: linear-gradient(135deg, #ff6b6b 0%, #cc5252 100%);
+    }
+
+    /* New Entry Form */
+    .entry-form {
+      background-color: #36393f;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      margin-bottom: 2rem;
+      display: none;
+    }
+
+    .entry-form.active {
+      display: block;
+    }
+
+    .entry-form input,
+    .entry-form textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #2c2f33;
+      color: #ffffff;
+      font-size: 1rem;
+    }
+
+    .entry-form textarea {
+      height: 150px;
+      resize: vertical;
+    }
+
+    .entry-form button {
+      padding: 0.8rem 1.5rem;
+      background-color: #7289da;
+      border: none;
+      border-radius: 5px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .entry-form button:hover {
+      background-color: #677bc4;
+    }
+
+    /* Error Message */
+    .error {
+      color: #ff5555;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .error.active {
+      display: block;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #36393f;
+      padding: 1rem;
+      text-align: center;
+      color: #b9bbbe;
+      font-size: 0.9rem;
+    }
+
+    .footer ul {
+      list-style: none;
+      margin: 0.5rem 0 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .footer a {
+      color: #7289da;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #677bc4;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .content-section h1 {
+        font-size: 2rem;
+      }
+
+      .content-section p {
+        font-size: 1rem;
+      }
+
+      .entry-card h3 {
+        font-size: 1.4rem;
+      }
+
+      .entry-card p {
+        font-size: 0.8rem;
+      }
+
+      .entry-card p.truncated::after {
+        font-size: 0.7rem;
+        padding: 0 0.4rem;
+      }
+
+      .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+        max-height: 80vh;
+      }
+
+      .modal-content .content-container {
+        max-height: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      main {
+        padding: 1rem;
+      }
+
+      .entry-form {
+        padding: 1rem;
+      }
+
+      .modal-content {
+        padding: 1rem;
+        max-height: 70vh;
+      }
+
+      .modal-content .content-container {
+        max-height: 200px;
+      }
+
+      .entry-card p.truncated::after {
+        font-size: 0.65rem;
+        padding: 0 0.3rem;
+      }
+    }
+
+    h1 a {
+      text-decoration: none;
+      color: white;
+      font-size: large;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">LifeVault</div>
+    <nav>
+      <ul></ul>
+      <div class="menu-button" onclick="toggleSidebar()"></div>
+    </nav>
+  </header>
+  <div class="sidebar" id="sidebar">
+    <button class="close-button" onclick="toggleSidebar()">×</button>
+    <p><strong><%= username %></strong></p>
+    <a href="/logout" class="logout-button">Log Out</a>
+  </div>
+  <main>
+    <section class="content-section">
+      <h1 id="mainPage"><a href="/mainPage">Go Back</a></h1>
+      <h1>Memory</h1>
+      <p>Write, organize, and reflect on your daily thoughts and experiences. This feature allows you to keep a personal journal with ease.</p>
+
+      <!-- New Entry Button -->
+      <a href="#new-entry-form" class="new-entry-button" onclick="showNewEntryForm()">NEW</a>
+
+      <!-- Entry Form -->
+      <form method="POST" action="/mainPage/memory/<%= username %>" class="entry-form" id="new-entry-form">
+        <input type="text" name="title" placeholder="Entry Title" required />
+        <textarea name="content" placeholder="Write your thoughts..." required></textarea>
+        <button type="submit">Save Entry</button>
+      </form>
+
+      <!-- Entry Cards -->
+      <div class="entry-grid" id="entry-grid">
+        <% if (records && records.length > 0) { %>
+          <% records.forEach((record, index) => { %>
+            <div class="entry-card gradient-<%= (index % 3) + 1 %>" data-modal-id="modal-<%= record.id %>">
+              <h3><%= record.title %></h3>
+              <p><%= record.content %></p>
+              <small>Created at: <%= record.created_at.toDateString() %></small>
+              <button class="view-btn" onclick="openModal('modal-<%= record.id %>')">View</button>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p>No memory entries yet.</p>
+        <% } %>
+      </div>
+
+      <!-- Modals Container -->
+      <div class="modals-container">
+        <% if (records && records.length > 0) { %>
+          <% records.forEach((record, index) => { %>
+            <div class="modal" id="modal-<%= record.id %>">
+              <div class="modal-content">
+                <button class="close-button" onclick="closeModal('modal-<%= record.id %>')">×</button>
+                <h3><%= record.title %></h3>
+                <div class="meta">Created at: <%= record.created_at.toDateString() %></div>
+                <div class="content-container">
+                  <p><%= record.content %></p>
+                </div>
+                <div class="modal-actions">
+                  <button class="edit-btn" onclick="toggleForm('edit-form-<%= record.id %>')">Edit</button>
+                  <button class="delete-btn" onclick="toggleForm('delete-form-<%= record.id %>')">Delete</button>
+                </div>
+                <form method="POST" action="/mainPage/memory/<%= username %>/edit/<%= record.id %>?_method=PUT" class="modal-form" id="edit-form-<%= record.id %>">
+                  <input type="text" name="title" value="<%= record.title %>" required />
+                  <textarea name="content" required><%= record.content %></textarea>
+                  <button type="submit">Save Changes</button>
+                </form>
+                <form method="POST" action="/mainPage/memory/<%= username %>/delete/<%= record.id %>?_method=DELETE" class="modal-form" id="delete-form-<%= record.id %>">
+                  <p>Are you sure you want to delete this entry?</p>
+                  <button type="submit">Confirm Delete</button>
+                </form>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 LifeVault. All rights reserved.</p>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </footer>
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+    }
+
+    function showNewEntryForm() {
+      document.getElementById('new-entry-form').classList.toggle('active');
+    }
+
+    function toggleForm(formId) {
+      const form = document.getElementById(formId);
+      form.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('show');
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('show');
+      }
+    }
+
+    function addmemoryCard(title, content) {
+      const card = document.createElement('div');
+      card.className = 'entry-card gradient-1';
+      card.setAttribute('data-modal-id', 'modal-new');
+      card.innerHTML = `
+        <h3>${title}</h3>
+        <p>${content}</p>
+        <small>Created at: ${new Date().toDateString()}</small>
+        <button class="view-btn" onclick="openModal('modal-new')">View</button>
+      `;
+      document.getElementById('entry-grid').prepend(card);
+
+      const modalContainer = document.querySelector('.modals-container');
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.id = 'modal-new';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <button class="close-button" onclick="closeModal('modal-new')">×</button>
+          <h3>${title}</h3>
+          <div class="meta">Created at: ${new Date().toDateString()}</div>
+          <div class="content-container">
+            <p>${content}</p>
+          </div>
+          <div class="modal-actions">
+            <button class="edit-btn" onclick="toggleForm('edit-form-0')">Edit</button>
+            <button class="delete-btn" onclick="toggleForm('delete-form-0')">Delete</button>
+          </div>
+          <form method="POST" action="/mainPage/memory/<%= username %>/edit/0?_method=PUT" class="modal-form" id="edit-form-0">
+            <input type="text" name="title" value="${title}" required />
+            <textarea name="content" required>${content}</textarea>
+            <button type="submit">Save Changes</button>
+          </form>
+          <form method="POST" action="/mainPage/memory/<%= username %>/delete/0?_method=DELETE" class="modal-form" id="delete-form-0">
+            <p>Are you sure you want to delete this entry?</p>
+            <button type="submit">Confirm Delete</button>
+          </form>
+        </div>
+      `;
+      modalContainer.appendChild(modal);
+      checkTruncation();
+    }
+
+    function editCard(button) {
+      const card = button.closest('.entry-card');
+      const newTitle = prompt('Edit title:', card.querySelector('h3').innerText);
+      const newContent = prompt('Edit content:', card.querySelector('p').innerText);
+      if (newTitle !== null && newContent !== null) {
+        card.querySelector('h3').innerText = newTitle.trim();
+        card.querySelector('p').innerText = newContent.trim();
+        checkTruncation();
+      }
+    }
+
+    function deleteCard(button) {
+      button.closest('.entry-card').remove();
+    }
+
+    // Check for truncated content
+    function checkTruncation() {
+      document.querySelectorAll('.entry-card p').forEach(p => {
+        p.classList.remove('truncated');
+        if (p.scrollHeight > p.clientHeight) {
+          p.classList.add('truncated');
+        }
+      });
+    }
+
+    // Initialize modal click handlers
+    document.addEventListener('DOMContentLoaded', () => {
+      checkTruncation();
+
+      // Attach close handlers to modals
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal && modal.classList.contains('show')) {
+            modal.classList.remove('show');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

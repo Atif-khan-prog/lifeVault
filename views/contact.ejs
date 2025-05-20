@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <!-- Prevent zooming -->
+  <title>Contact LifeVault</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #2c2f33;
+      font-family: 'Arial', sans-serif;
+      color: #ffffff;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      box-sizing: border-box;
+      overflow-wrap: break-word; /* Ensure text wraps */
+      width: 100vw; /* Force body to viewport width */
+    }
+
+    * {
+      box-sizing: inherit; /* Apply box-sizing globally */
+      max-width: 100%; /* Constrain all elements */
+    }
+
+    /* Header */
+    .header {
+      background-color: #36393f;
+      padding: clamp(0.5rem, 2vw, 0.6rem) clamp(0.5rem, 2vw, 0.8rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      max-width: 100vw; /* Explicit viewport constraint */
+      top: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: clamp(1.2rem, 3.5vw, 1.4rem);
+      font-weight: 700;
+      color: #7289da;
+      flex-shrink: 0;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: clamp(0.5rem, 1.5vw, 0.8rem);
+    }
+
+    nav a {
+      color: #b9bbbe;
+      text-decoration: none;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      transition: color 0.3s ease;
+      padding: clamp(0.2rem, 1vw, 0.3rem);
+      white-space: nowrap;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #7289da;
+    }
+
+    /* Main Content */
+    main {
+      margin-top: clamp(40px, 10vw, 50px);
+      padding: clamp(0.5rem, 2vw, 0.8rem);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      width: 100%;
+      max-width: 100vw;
+    }
+
+    .contact-section {
+      padding: clamp(0.8rem, 3vw, 1rem) clamp(0.3rem, 1.5vw, 0.5rem);
+      max-width: 100%;
+    }
+
+    .contact-section h1 {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      margin-bottom: clamp(0.5rem, 2vw, 1rem);
+      color: #ffffff;
+    }
+
+    .contact-info {
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+      color: #b9bbbe;
+      line-height: 1.6;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+
+    .contact-info p {
+      margin: clamp(0.2rem, 1vw, 0.3rem) 0;
+      overflow-wrap: break-word;
+    }
+
+    .contact-info strong {
+      display: inline-block; /* Ensure strong tags don't cause overflow */
+      max-width: 100%;
+    }
+
+    .contact-info a {
+      color: #7289da;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      word-break: break-all;
+      display: inline-block;
+      max-width: 100%;
+    }
+
+    .contact-info a:hover {
+      color: #677bc4;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #36393f;
+      padding: clamp(0.5rem, 2vw, 0.8rem);
+      text-align: center;
+      color: #b9bbbe;
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      width: 100%;
+      max-width: 100vw;
+    }
+
+    .footer ul {
+      list-style: none;
+      margin: clamp(0.2rem, 1vw, 0.3rem) 0 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: clamp(0.5rem, 2vw, 1rem);
+    }
+
+    .footer a {
+      color: #7289da;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      padding: clamp(0.1rem, 0.5vw, 0.2rem);
+    }
+
+    .footer a:hover {
+      color: #677bc4;
+    }
+
+    /* Hamburger Menu */
+    .nav-toggle {
+      display: none;
+      font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+      background: none;
+      border: none;
+      color: #b9bbbe;
+      cursor: pointer;
+      padding: clamp(0.2rem, 1vw, 0.3rem);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .contact-section h1 {
+        font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+      }
+
+      .contact-info {
+        font-size: clamp(0.75rem, 2vw, 0.9rem);
+      }
+
+      main {
+        padding: clamp(0.4rem, 1.5vw, 0.6rem);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.4rem, 1.5vw, 0.6rem);
+        flex-wrap: wrap;
+        gap: clamp(0.2rem, 0.5vw, 0.3rem);
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      nav {
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+        background-color: #36393f;
+      }
+
+      nav.open {
+        max-height: 300px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+        padding: clamp(0.5rem, 2vw, 0.8rem) 0;
+        gap: clamp(0.3rem, 1vw, 0.5rem);
+        width: 100%;
+        max-width: 100%;
+      }
+
+      nav a {
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+        padding: clamp(0.3rem, 1vw, 0.4rem);
+        width: 100%;
+        text-align: center;
+      }
+
+      main {
+        margin-top: clamp(35px, 8vw, 45px);
+        padding: clamp(0.4rem, 1.5vw, 0.6rem);
+      }
+
+      .contact-section {
+        max-width: 92%; /* Maximize content width */
+      }
+    }
+
+    @media (max-width: 320px) {
+      .logo {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+      }
+
+      .nav-toggle {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+      }
+
+      .contact-section h1 {
+        font-size: clamp(1rem, 3vw, 1.4rem);
+      }
+
+      .contact-info {
+        font-size: clamp(0.7rem, 2vw, 0.8rem);
+      }
+
+      .contact-section {
+        max-width: 90%;
+      }
+    }
+
+    @media (max-width: 280px) {
+      .header {
+        padding: clamp(0.3rem, 1vw, 0.4rem) clamp(0.3rem, 1vw, 0.4rem);
+      }
+
+      main {
+        padding: clamp(0.3rem, 1vw, 0.4rem);
+      }
+    }
+    #feedback {
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  background-color: #23272a;
+  border-radius: 10px;
+  padding: clamp(1rem, 4vw, 2rem);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.8rem, 2vw, 1rem);
+}
+
+.entry-form input[type="email"],
+.entry-form textarea {
+  padding: clamp(0.6rem, 1.5vw, 0.8rem);
+  border: none;
+  border-radius: 5px;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  background-color: #2c2f33;
+  color: #ffffff;
+  resize: vertical;
+}
+
+.entry-form textarea {
+  min-height: 100px;
+}
+
+.entry-form button {
+  padding: clamp(0.6rem, 1.5vw, 0.8rem);
+  background-color: #7289da;
+  border: none;
+  color: #fff;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.entry-form button:hover {
+  background-color: #677bc4;
+}
+
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">LifeVault</div>
+    <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/login" id="login-link">Login</a></li>
+        <li><a href="/signup">Sign Up</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section class="contact-section">
+      <h1>Contact Us</h1>
+      <div class="contact-info">
+        <p><strong>Name: Muhammad Atif</strong></p>
+        <p><strong>Email: muhammadatif6541@gmail.com</strong></p>
+      </div>
+    </section>
+    <section id="feedback">
+      <form method="post" action="/contact/feedback" class="entry-form" id="new-entry-form">
+  <input type="email" name="email" placeholder="Enter Email" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$">
+  <textarea name="feedback" placeholder="Write your feedback..." required></textarea>
+  <button type="submit">Send Feedback</button>
+</form>
+
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 LifeVault. All rights reserved.</p>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Hamburger menu toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('nav');
+
+    navToggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      navToggle.textContent = nav.classList.contains('open') ? '✕' : '☰';
+    });
+  </script>
+</body>
+</html>
