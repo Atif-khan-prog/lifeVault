@@ -65,7 +65,7 @@
     });
 
     app.get('/signup', (req, res) => {
-        res.render('Signup');
+        res.render('signup');
     });
 
     app.post('/signup', (req, res) => {
