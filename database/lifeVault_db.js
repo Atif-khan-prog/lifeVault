@@ -1,20 +1,14 @@
 const mysql = require('mysql2');
-require('dotenv').config();
 
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306
+// Create the connection pool for better performance & automatic reconnection
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'lifeVault_db',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to DB:', err);
-  } else {
-    console.log('Connected to remote MySQL DB!');
-  }
-});
-
-module.exports = connection;
+module.exports = pool;
