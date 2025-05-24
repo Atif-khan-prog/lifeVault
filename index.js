@@ -5,6 +5,7 @@
     const database = require('./database/lifeVault_db');
     const { send } = require('process');
     const { queryObjects } = require('v8');
+    require('dotenv').config();
 
     const app = express();
 
@@ -311,6 +312,9 @@
             }
             res.redirect(`/mainPage/finance/${username}`)
         })
+    });
+    app.post('/contact/feedback',(req, res)=>{
+        res.send('Thank you for the feedback');
     })
 
     app.use((req, res) => {

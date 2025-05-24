@@ -7,10 +7,18 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": ["express", "diary", "finance", "tasks", "ejs", "mysql"],
+  "keywords": [
+    "express",
+    "diary",
+    "finance",
+    "tasks",
+    "ejs",
+    "mysql"
+  ],
   "author": "Muhammad Atif",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
