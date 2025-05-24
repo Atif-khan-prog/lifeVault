@@ -319,7 +319,10 @@ app.delete('/mainPage/finance/:username/delete/:id', isAuthenticated, async (req
 app.use((req, res) => {
   res.status(404).send('Page not found');
 });
-
+app.get('/test', (req, res) => {
+  console.log('GET /test: Sending plain HTML');
+  res.send('<h1>Test Page</h1><p>This is a test to confirm the app is working.</p>');
+});
 // Start server
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
